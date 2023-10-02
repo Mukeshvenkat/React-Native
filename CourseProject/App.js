@@ -14,6 +14,7 @@ export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
 
   function goalInputHandler(enteredText) {
+    console.log('Test Commit')
     setEnteredGoalText(enteredText);
   }
 
