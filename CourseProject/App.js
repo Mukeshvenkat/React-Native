@@ -1,24 +1,45 @@
 import { useState } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Button, FlatList, StyleSheet, View } from "react-native";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
+  const [modalIsVisible, setIsModalIsVisible] = useState(false);
 
   function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentGoals) => [
       ...currentGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+    endModalHandler();
+  }
+
+  function deleteItemHandler(id) {
+    setCourseGoals((currentCourseGoals) => {
+      return currentCourseGoals.filter((goal) => goal.id !== id);
+    });
+  }
+
+  function onButtonPressHandler() {
+    setIsModalIsVisible(true);
+  }
+
+  function endModalHandler() {
+    setIsModalIsVisible(false);
   }
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler}/>
+      <Button
+        title="Add New Goal"
+        color="#5e0acc"
+        onPress={onButtonPressHandler}
+      />
+      <GoalInput
+        visible={modalIsVisible}
+        onAddGoal={addGoalHandler}
+        onCancel={endModalHandler}
+      />
       <View style={styles.goalsContainer}>
         {/* <ScrollView>
           {courseGoals.map((goal) => (
@@ -31,11 +52,15 @@ export default function App() {
           data={courseGoals}
           renderItem={(itemData) => {
             return (
-              <GoalItem text={itemData.item.text}/>
+              <GoalItem
+                text={itemData.item.text}
+                id={itemData.item.id}
+                onDeleteItem={deleteItemHandler}
+              />
             );
           }}
           keyExtractor={(item, index) => {
-            return item.id
+            return item.id;
           }}
         />
       </View>
@@ -51,5 +76,5 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 5,
-  }
+  },
 });
