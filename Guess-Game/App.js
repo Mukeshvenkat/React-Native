@@ -6,11 +6,12 @@ import GameScreeen from "./screens/GameScreen";
 import Colors from "./constants/Colors";
 import GameOverScreeen from "./screens/GameOverScreen";
 import { useFonts } from "expo-font";
-import AppLoading from 'expo-app-loading';
+import AppLoading from "expo-app-loading";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
+  const [guessRounds, setGuessRounds] = useState(0);
 
   const [fontsLoaded] = useFonts({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
@@ -18,7 +19,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />
+    return <AppLoading />;
   }
 
   function pickedNumberHandler(pickedNumber) {
@@ -26,8 +27,14 @@ export default function App() {
     setGameIsOver(false);
   }
 
-  function gameOverHandler() {
+  function gameOverHandler(guessRoundsLength) {
     setGameIsOver(true);
+    setGuessRounds(guessRoundsLength);
+  }
+
+  function startNewGameHandler() {
+    setUserNumber(null);
+    setGuessRounds(0);
   }
   let screen = <StartGameScreeen onPickNumber={pickedNumberHandler} />;
 
@@ -37,7 +44,13 @@ export default function App() {
     );
   }
   if (gameIsOver && userNumber) {
-    screen = <GameOverScreeen />;
+    screen = (
+      <GameOverScreeen
+        userNumber={userNumber}
+        roundsNumber={guessRounds}
+        onStartGame={startNewGameHandler}
+      />
+    );
   }
   return (
     <LinearGradient
