@@ -8,24 +8,26 @@ import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
 
 function StartGameScreeen({ onPickNumber }) {
-  const [enteredNumber, setEnteredNumber] = useState('');
+  const [enteredNumber, setEnteredNumber] = useState("");
 
   function numberInputHandler(enteredText) {
     setEnteredNumber(enteredText);
   }
 
   function resetInputHandler() {
-    setEnteredNumber('');
+    setEnteredNumber("");
   }
 
   function confirmInputHandler() {
     const choosenNumber = parseInt(enteredNumber);
 
     if (isNaN(enteredNumber) || enteredNumber <= 0 || enteredNumber > 99) {
-      Alert.alert('Invalid Number', 'Number should be between 1 and 99', [{ text: 'Cancel', style: 'destructive', onPress: resetInputHandler }])
+      Alert.alert("Invalid Number", "Number should be between 1 and 99", [
+        { text: "Cancel", style: "destructive", onPress: resetInputHandler },
+      ]);
       return;
     }
-    console.log()
+    console.log();
     onPickNumber(choosenNumber);
   }
   return (
@@ -61,13 +63,13 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     marginTop: 100,
-    alignItems: 'center'
+    alignItems: "center",
   },
   buttonViewContainer: {
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   buttonContainer: {
-    flex: 1
+    flex: 1,
   },
   numberInput: {
     height: 50,
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     marginVertical: 8,
     color: Colors.accent500,
-    fontWeight: "bold",
+    fontFamily: "open-sans-bold",
     textAlign: "center",
   },
 });
