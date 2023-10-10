@@ -1,9 +1,13 @@
 import { StyleSheet } from 'react-native';
 import CategoriesScreen from './screen/CategoriesScreen';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   return (
-    <CategoriesScreen />
+    <>
+      <StatusBar style='light' />
+      <CategoriesScreen />
+    </>
   );
 }
 
