@@ -1,9 +1,11 @@
-import { Text, View } from "react-native";
+import { useContext } from "react";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
+import { ExpenseContext } from "../store/expense-context";
 
 function AllExpenses() {
+    const expenseCtx = useContext(ExpenseContext);
     return (
-        <ExpensesOutput expensePeriod={"Total"} />
+        <ExpensesOutput expenses={expenseCtx.expense} expensePeriod={"Total"} fallbackText="No Expenses!" />
     )
 };
 
