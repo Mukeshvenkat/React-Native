@@ -12,6 +12,8 @@ function ManageExpense({ route, navigation }) {
     const expenseItemId = route.params?.expenseId;
     const isEditing = !!expenseItemId;
 
+    const selectedExpense = expenseCtx.expense.find((item) => item.id === expenseItemId);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: isEditing ? 'Edit Expense' : 'Add Expense'
@@ -25,32 +27,25 @@ function ManageExpense({ route, navigation }) {
     const cancelExpenseHandler = () => {
         navigation.goBack();
     };
-    const confirmExpenseHandler = () => {
+    const confirmExpenseHandler = (expenseData) => {
         if (isEditing) {
             expenseCtx.updateExpense({
                 expenseItemId,
-                data: {
-                    description: 'Test - Update',
-                    amount: 100.99,
-                    date: new Date('2023-10-16')
-                }
+                data: expenseData
             });
         } else {
-            expenseCtx.addExpense({
-                description: 'Test - Add',
-                amount: 90.99,
-                date: new Date('2023-10-16')
-            })
+            expenseCtx.addExpense(expenseData)
         }
         navigation.goBack();
     };
     return (
         <View style={styles.rootContainer}>
-            <ExpenseForm />
-            <View style={styles.buttonContainer}>
-                <Button style={styles.button} mode='flat' onPress={cancelExpenseHandler}>Cancel</Button>
-                <Button style={styles.button} onPress={confirmExpenseHandler}>{isEditing ? 'Update' : 'Add'}</Button>
-            </View>
+            <ExpenseForm
+                onCancel={cancelExpenseHandler}
+                submitButtonLabel={isEditing ? 'Update' : 'Add'}
+                onSubmit={confirmExpenseHandler}
+                defaultValues={selectedExpense}
+            />
             {isEditing &&
                 <View style={styles.trashContainer}>
                     <IconButton icon='trash' color={GlobalStyles.colors.error500} size={36} onPress={deleteExpenseHandler} />
@@ -67,15 +62,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: GlobalStyles.colors.primary800,
         padding: 24
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    button: {
-        minWexpenseItemIdth: 120,
-        marginHorizontal: 8
     },
     trashContainer: {
         paddingTop: 16,
