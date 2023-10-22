@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        minWexpenseItemIdth: 120,
+        minWidth: 120,
         marginHorizontal: 8
     },
     errorText: {
