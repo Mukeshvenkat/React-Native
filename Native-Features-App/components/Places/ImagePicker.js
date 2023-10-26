@@ -9,12 +9,12 @@ export const ImagePicker = () => {
     const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
 
     const verifyPermission = async () => {
-        if (cameraPermissionInformation === PermissionStatus.UNDETERMINED) {
+        if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
             const response = await requestPermission();
             return response.granted;
         }
 
-        if (cameraPermissionInformation === PermissionStatus.DENIED) {
+        if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
             Alert.alert('Insufficient Permission', 'You need to grant camera permission to use this app.');
             return false;
         }
